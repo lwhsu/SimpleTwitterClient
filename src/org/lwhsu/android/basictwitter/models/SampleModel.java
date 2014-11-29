@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate.models;
+package org.lwhsu.android.basictwitter.models;
 
 import java.util.List;
 
