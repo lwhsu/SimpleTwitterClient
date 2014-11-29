@@ -1,0 +1,8 @@
+package org.lwhsu.android.basictwitter;
+
+public class TwitterConfig {
+
+    public static final String TWITTER_API_KEY = "CHANGE_ME";
+    public static final String TWITTER_API_SECRET= "CHANGE_ME";
+
+}

@@ -1,3 +1,6 @@
+# Store Twitter key/secert
+src/org/lwhsu/android/basictwitter/TwitterConfig.java
+
 # Created by https://www.gitignore.io
 
 ### Android ###
