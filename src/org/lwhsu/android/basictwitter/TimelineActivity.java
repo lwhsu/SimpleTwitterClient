@@ -28,7 +28,7 @@ public class TimelineActivity extends Activity {
         populateTimeline();
         lvTweets = (ListView) findViewById(R.id.lvTweets);
         tweets = new ArrayList<Tweet>();
-        aTweets = new ArrayAdapter<Tweet>(this, android.R.layout.simple_list_item_1, tweets);
+        aTweets = new TweetArrayAdapter(this, tweets);
         lvTweets.setAdapter(aTweets);
     }
 
