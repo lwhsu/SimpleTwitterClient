@@ -84,6 +84,9 @@ public class TimelineActivity extends Activity {
     public void prependTimeline(final Tweet tweet) {
         tweets.add(0, tweet);
         aTweets.notifyDataSetChanged();
+
+        tweet.getUser().save();
+        tweet.save();
     }
 
     @Override
