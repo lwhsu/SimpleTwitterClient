@@ -12,11 +12,38 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-public class Tweet {
-    private String body;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Column.ForeignKeyAction;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Tweets")
+public class Tweet extends Model {
+
+    @Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
+
+    @Column(name = "created_at")
     private String createdAt;
+
+    @Column(name = "User", onUpdate = ForeignKeyAction.CASCADE, onDelete = ForeignKeyAction.CASCADE)
     private User user;
+
+    @Column(name = "body")
+    private String body;
+
+    public Tweet() {
+        super();
+    }
+
+    public Tweet(final long uid, final String createdAt, final User user, final String body) {
+        super();
+        this.uid = uid;
+        this.createdAt = createdAt;
+        this.user = user;
+        this.body = body;
+    }
+
 
     public static Tweet fromJSON(final JSONObject json) {
         final Tweet tweet = new Tweet();

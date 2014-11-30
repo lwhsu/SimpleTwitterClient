@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.lwhsu.android.basictwitter.models.Tweet;
+import org.lwhsu.android.basictwitter.models.User;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.activeandroid.query.Delete;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends Activity {
@@ -61,6 +63,14 @@ public class TimelineActivity extends Activity {
                 final ArrayList<Tweet> tweets = Tweet.fromJSONArray(json);
                 aTweets.addAll(tweets);
                 lastId = tweets.get(tweets.size() - 1).getUid();
+
+                // update local db
+                new Delete().from(Tweet.class).execute();
+                new Delete().from(User.class).execute();
+                for (final Tweet tweet : tweets) {
+                    tweet.getUser().save();
+                    tweet.save();
+                }
             }
 
             @Override

@@ -3,11 +3,35 @@ package org.lwhsu.android.basictwitter.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User {
-    private String name;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Users")
+public class User extends Model {
+    @Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "screen_name")
     private String screenName;
+
+    @Column(name = "profile_image_url")
     private String profileImageUrl;
+
+    public User() {
+        super();
+    }
+
+    public User(final long uid, final String name, final String screenName, final String profileImageUrl) {
+        super();
+        this.uid = uid;
+        this.name = name;
+        this.screenName = screenName;
+        this.profileImageUrl = profileImageUrl;
+    }
 
     public static User fromJSON(final JSONObject json) {
         final User user = new User();
