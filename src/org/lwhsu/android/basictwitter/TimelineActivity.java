@@ -6,10 +6,14 @@ import org.json.JSONArray;
 import org.lwhsu.android.basictwitter.models.Tweet;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -57,5 +61,31 @@ public class TimelineActivity extends Activity {
                 Log.d("debug", s.toString());
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.timeline, menu);
+        return true;
+    }
+
+    private final int REQUEST_CODE_COMPOSE = 20;
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int id = item.getItemId();
+        if (id == R.id.action_compose) {
+            final Intent i = new Intent(this, ComposeActivity.class);
+            startActivityForResult(i, REQUEST_CODE_COMPOSE);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_COMPOSE) {
+            Toast.makeText(this, "Tweeted!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
