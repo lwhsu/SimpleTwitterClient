@@ -7,13 +7,17 @@ import org.json.JSONObject;
 import org.lwhsu.android.basictwitter.models.Tweet;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -31,11 +35,15 @@ public class TimelineActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         client = TwitterApplication.getRestClient();
-        populateTimeline(Long.valueOf(1), null);
         lvTweets = (ListView) findViewById(R.id.lvTweets);
         tweets = new ArrayList<Tweet>();
         aTweets = new TweetArrayAdapter(this, tweets);
         lvTweets.setAdapter(aTweets);
+        if (isConnected()) {
+            populateTimeline(Long.valueOf(1), null);
+        } else {
+            Toast.makeText(this, "No Network Connection!", Toast.LENGTH_LONG).show();
+        }
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
 
             @Override
@@ -105,5 +113,11 @@ public class TimelineActivity extends Activity {
                 }
             });
         }
+    }
+
+    private boolean isConnected() {
+        final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }
