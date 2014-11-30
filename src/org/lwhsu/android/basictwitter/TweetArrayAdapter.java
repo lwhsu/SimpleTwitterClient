@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.activeandroid.util.Log;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
@@ -40,7 +39,6 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         ivProfileImage.setImageResource(android.R.color.transparent);
         final ImageLoader imageLoader = ImageLoader.getInstance();
         // Populate views with tweet data
-        Log.d("debug", tweet.getUser().getProfileImageUrl());
         imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
         tvUserName.setText(tweet.getUser().getScreenName());
         tvBody.setText(tweet.getBody());
