@@ -45,6 +45,7 @@ public class TimelineActivity extends Activity {
             populateTimeline(Long.valueOf(1), null);
         } else {
             Toast.makeText(this, "No Network Connection!", Toast.LENGTH_LONG).show();
+            populateTimelineOffline();
         }
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
 
@@ -79,6 +80,10 @@ public class TimelineActivity extends Activity {
                 Log.d("debug", s.toString());
             }
         });
+    }
+
+    private void populateTimelineOffline() {
+        aTweets.addAll(Tweet.getAll());
     }
 
     public void prependTimeline(final Tweet tweet) {

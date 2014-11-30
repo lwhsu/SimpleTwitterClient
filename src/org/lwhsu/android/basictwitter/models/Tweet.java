@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONArray;
@@ -16,6 +17,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Column.ForeignKeyAction;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "Tweets")
 public class Tweet extends Model {
@@ -112,6 +114,10 @@ public class Tweet extends Model {
     @Override
     public String toString() {
         return getBody() + " - " + getUser().getScreenName();
+    }
+
+    public static List<Tweet> getAll() {
+        return new Select().from(Tweet.class).orderBy("uid DESC").execute();
     }
 
 }
