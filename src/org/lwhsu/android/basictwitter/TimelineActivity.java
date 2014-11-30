@@ -3,6 +3,7 @@ package org.lwhsu.android.basictwitter;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.lwhsu.android.basictwitter.models.Tweet;
 
 import android.app.Activity;
@@ -13,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -63,6 +63,24 @@ public class TimelineActivity extends Activity {
         });
     }
 
+    public void prependTimeline() {
+        client.getHomeTimeline(Long.valueOf(1), null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(final JSONArray json) {
+                Log.d("debug", json.toString());
+                final ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
+                aTweets.clear();
+                aTweets.addAll(newTweets);
+            }
+
+            @Override
+            public void onFailure(final Throwable e, final String s) {
+                Log.d("debug", e.toString());
+                Log.d("debug", s.toString());
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -85,7 +103,19 @@ public class TimelineActivity extends Activity {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_COMPOSE) {
-            Toast.makeText(this, "Tweeted!", Toast.LENGTH_SHORT).show();
+            final String status = data.getStringExtra("status");
+            client.statusesUpdate(status, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(final JSONObject json) {
+                    prependTimeline();
+                }
+
+                @Override
+                public void onFailure(final Throwable e, final String s) {
+                    Log.d("debug", e.toString());
+                    Log.d("debug", s.toString());
+                }
+            });
         }
     }
 }
