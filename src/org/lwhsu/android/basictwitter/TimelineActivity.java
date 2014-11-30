@@ -63,22 +63,9 @@ public class TimelineActivity extends Activity {
         });
     }
 
-    public void prependTimeline() {
-        client.getHomeTimeline(Long.valueOf(1), null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(final JSONArray json) {
-                Log.d("debug", json.toString());
-                final ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
-                aTweets.clear();
-                aTweets.addAll(newTweets);
-            }
-
-            @Override
-            public void onFailure(final Throwable e, final String s) {
-                Log.d("debug", e.toString());
-                Log.d("debug", s.toString());
-            }
-        });
+    public void prependTimeline(final Tweet tweet) {
+        tweets.add(0, tweet);
+        aTweets.notifyDataSetChanged();
     }
 
     @Override
@@ -107,7 +94,8 @@ public class TimelineActivity extends Activity {
             client.statusesUpdate(status, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(final JSONObject json) {
-                    prependTimeline();
+                    final Tweet tweet = Tweet.fromJSON(json);
+                    prependTimeline(tweet);
                 }
 
                 @Override
