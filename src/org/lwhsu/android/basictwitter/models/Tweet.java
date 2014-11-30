@@ -1,6 +1,10 @@
 package org.lwhsu.android.basictwitter.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +68,18 @@ public class Tweet {
         }
 
         return tweets;
+    }
+
+    public static Date getTwitterDate(final String date) {
+        final String TWITTER = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        final SimpleDateFormat sf = new SimpleDateFormat(TWITTER, Locale.US);
+        sf.setLenient(true);
+        try {
+            return sf.parse(date);
+        } catch (final ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
