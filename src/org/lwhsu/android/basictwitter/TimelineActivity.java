@@ -7,12 +7,12 @@ import org.json.JSONObject;
 import org.lwhsu.android.basictwitter.models.Tweet;
 import org.lwhsu.android.basictwitter.models.User;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.activeandroid.query.Delete;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class TimelineActivity extends Activity {
+public class TimelineActivity extends FragmentActivity {
 
     private TwitterClient client;
     private ArrayList<Tweet> tweets;
