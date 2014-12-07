@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ProfileActivity extends FragmentActivity {
 
@@ -25,8 +28,24 @@ public class ProfileActivity extends FragmentActivity {
             public void onSuccess(final JSONObject json) {
                 final User u = User.fromJSON(json);
                 getActionBar().setTitle("@" + u.getScreenName());
+                populateProfileHeader(u);
             }
+
         });
+    }
+
+    private void populateProfileHeader(final User u) {
+        final TextView tvName = (TextView) findViewById(R.id.tvName);
+        final TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
+        final TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
+        final TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
+        final ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+
+        tvName.setText(u.getName());
+        tvTagline.setText(u.getDescription());
+        tvFollowers.setText(u.getFollowersCount() + " Followers");
+        tvFollowing.setText(u.getFollowingCount() + " Following");
+        ImageLoader.getInstance().displayImage(u.getProfileImageUrl(), ivProfileImage);
     }
 
     @Override
