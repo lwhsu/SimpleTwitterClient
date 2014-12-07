@@ -1,5 +1,11 @@
 package org.lwhsu.android.basictwitter;
 
+import org.lwhsu.android.basictwitter.fragments.HomeTimelineFragment;
+import org.lwhsu.android.basictwitter.fragments.MentionsTimelineFragment;
+import org.lwhsu.android.basictwitter.listeners.FragmentTabListener;
+
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -14,6 +20,36 @@ public class TimelineActivity extends FragmentActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        setupTabs();
+    }
+
+    private void setupTabs() {
+        final ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(true);
+
+        final Tab tab1 = actionBar
+            .newTab()
+            .setText("Home")
+            .setIcon(R.drawable.ic_home)
+            .setTag("HomeTimelineFragment")
+            .setTabListener(
+                new FragmentTabListener<HomeTimelineFragment>(R.id.flContainer, this, "home",
+                                HomeTimelineFragment.class));
+
+        actionBar.addTab(tab1);
+        actionBar.selectTab(tab1);
+
+        final Tab tab2 = actionBar
+            .newTab()
+            .setText("Mentions")
+            .setTag("MentionsTimelineFragment")
+            .setIcon(R.drawable.ic_mentions)
+            .setTabListener(
+                new FragmentTabListener<MentionsTimelineFragment>(R.id.flContainer, this, "mentions",
+                                MentionsTimelineFragment.class));
+
+        actionBar.addTab(tab2);
     }
 
     @Override
