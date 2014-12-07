@@ -52,10 +52,16 @@ public class TimelineActivity extends FragmentActivity {
         actionBar.addTab(tab2);
     }
 
+    public void onProfileView(final MenuItem mi) {
+        final Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.timeline, menu);
+        getMenuInflater().inflate(R.menu.tweets, menu);
         return true;
     }
 
