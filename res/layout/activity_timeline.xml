@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_timeline"
-        android:name="org.lwhsu.android.basictwitter.fragments.HomeTimelineFragment"
+        android:name="org.lwhsu.android.basictwitter.fragments.MentionsTimelineFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

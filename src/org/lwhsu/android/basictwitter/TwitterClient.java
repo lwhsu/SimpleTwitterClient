@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /*
@@ -60,6 +61,18 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("format", "json");
 		client.get(apiUrl, params, handler);
 	}
+
+    public void getMentions(final Long sinceId, final Long maxId, final JsonHttpResponseHandler handler) {
+	    final String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+		final RequestParams params = new RequestParams();
+        if (sinceId != null) {
+            params.put("since_id", sinceId.toString());
+        }
+        if (maxId != null) {
+            params.put("max_id", maxId.toString());
+        }
+	    client.get(apiUrl, params, handler);
+    }
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");
