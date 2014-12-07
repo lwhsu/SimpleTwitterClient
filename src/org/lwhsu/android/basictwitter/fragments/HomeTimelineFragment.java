@@ -3,6 +3,7 @@ package org.lwhsu.android.basictwitter.fragments;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.lwhsu.android.basictwitter.EndlessScrollListener;
 import org.lwhsu.android.basictwitter.TwitterApplication;
 import org.lwhsu.android.basictwitter.TwitterClient;
 import org.lwhsu.android.basictwitter.models.Tweet;
@@ -10,6 +11,9 @@ import org.lwhsu.android.basictwitter.models.User;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.activeandroid.query.Delete;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -32,8 +36,12 @@ public class HomeTimelineFragment extends TweetsListFragment {
             populateTimelineOffline();
         }
         */
-        /*
-        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+    }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        final View v = super.onCreateView(inflater, container, savedInstanceState);
+        getListViewTweets().setOnScrollListener(new EndlessScrollListener() {
 
             @Override
             public void onLoadMore(final int page, final int totalItemsCount) {
@@ -41,7 +49,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
             }
 
         });
-        */
+        return v;
     }
 
     public void populateTimeline(final Long sinceId, final Long maxId) {

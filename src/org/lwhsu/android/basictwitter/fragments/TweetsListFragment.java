@@ -57,4 +57,8 @@ public class TweetsListFragment extends Fragment {
         tweet.getUser().save();
         tweet.save();
     }
+
+    public ListView getListViewTweets() {
+        return lvTweets;
+    }
 }
