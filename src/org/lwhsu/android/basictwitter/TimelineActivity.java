@@ -62,7 +62,6 @@ public class TimelineActivity extends FragmentActivity {
     public void onProfileView(final MenuItem mi) {
         final Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
-
     }
 
     private final int REQUEST_CODE_COMPOSE = 20;
