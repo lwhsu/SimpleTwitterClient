@@ -1,9 +1,14 @@
 package org.lwhsu.android.basictwitter;
 
+import org.json.JSONObject;
+import org.lwhsu.android.basictwitter.models.User;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class ProfileActivity extends Activity {
 
@@ -11,6 +16,17 @@ public class ProfileActivity extends Activity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        loadProfileInfo();
+    }
+
+    private void loadProfileInfo() {
+        TwitterApplication.getRestClient().getMyInfo(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(final JSONObject json) {
+                final User u = User.fromJSON(json);
+                getActionBar().setTitle("@" + u.getScreenName());
+            }
+        });
     }
 
     @Override
