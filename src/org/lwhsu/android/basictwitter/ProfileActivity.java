@@ -3,14 +3,14 @@ package org.lwhsu.android.basictwitter;
 import org.json.JSONObject;
 import org.lwhsu.android.basictwitter.models.User;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

@@ -8,4 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.lwhsu.android.basictwitter.ProfileActivity" >
 
+    <fragment
+        android:id="@+id/fragmentUserTimeline"
+        android:name="org.lwhsu.android.basictwitter.fragments.UserTimelineFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/fragment_tweets_list" />
+
 </RelativeLayout>

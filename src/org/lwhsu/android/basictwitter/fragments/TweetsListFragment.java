@@ -42,6 +42,10 @@ public class TweetsListFragment extends Fragment {
         return v;
     }
 
+    public ArrayAdapter<Tweet> getAdapter() {
+        return aTweets;
+    }
+
     public void addAll(final ArrayList<Tweet> tweets) {
         aTweets.addAll(tweets);
     }
