@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.lwhsu.android.basictwitter.fragments.TweetsListFragment;
 import org.lwhsu.android.basictwitter.models.Tweet;
 import org.lwhsu.android.basictwitter.models.User;
 
@@ -16,8 +17,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.activeandroid.query.Delete;
@@ -26,9 +25,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 public class TimelineActivity extends FragmentActivity {
 
     private TwitterClient client;
-    private ArrayList<Tweet> tweets;
-    private ArrayAdapter<Tweet> aTweets;
-    private ListView lvTweets;
+    private TweetsListFragment fragementTweetsList;
 
     private long lastId;
 
@@ -37,16 +34,14 @@ public class TimelineActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         client = TwitterApplication.getRestClient();
-        lvTweets = (ListView) findViewById(R.id.lvTweets);
-        tweets = new ArrayList<Tweet>();
-        aTweets = new TweetArrayAdapter(this, tweets);
-        lvTweets.setAdapter(aTweets);
+        fragementTweetsList = (TweetsListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_timeline);
         if (isConnected()) {
             populateTimeline(Long.valueOf(1), null);
         } else {
             Toast.makeText(this, "No Network Connection!", Toast.LENGTH_LONG).show();
             populateTimelineOffline();
         }
+        /*
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
 
             @Override
@@ -55,6 +50,7 @@ public class TimelineActivity extends FragmentActivity {
             }
 
         });
+        */
     }
 
     public void populateTimeline(final Long sinceId, final Long maxId) {
@@ -62,7 +58,7 @@ public class TimelineActivity extends FragmentActivity {
             @Override
             public void onSuccess(final JSONArray json) {
                 final ArrayList<Tweet> tweets = Tweet.fromJSONArray(json);
-                aTweets.addAll(tweets);
+                fragementTweetsList.addAll(tweets);
                 lastId = tweets.get(tweets.size() - 1).getUid();
 
                 // update local db
@@ -83,15 +79,11 @@ public class TimelineActivity extends FragmentActivity {
     }
 
     private void populateTimelineOffline() {
-        aTweets.addAll(Tweet.getAll());
+        fragementTweetsList.addAll((ArrayList<Tweet>) Tweet.getAll());
     }
 
     public void prependTimeline(final Tweet tweet) {
-        tweets.add(0, tweet);
-        aTweets.notifyDataSetChanged();
-
-        tweet.getUser().save();
-        tweet.save();
+        fragementTweetsList.prependTimeLine(tweet);
     }
 
     @Override
