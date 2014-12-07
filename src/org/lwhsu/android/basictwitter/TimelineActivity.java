@@ -52,29 +52,23 @@ public class TimelineActivity extends FragmentActivity {
         actionBar.addTab(tab2);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.timeline, menu);
+        return true;
+    }
+
     public void onProfileView(final MenuItem mi) {
         final Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.tweets, menu);
-        return true;
-    }
-
     private final int REQUEST_CODE_COMPOSE = 20;
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        final int id = item.getItemId();
-        if (id == R.id.action_compose) {
-            final Intent i = new Intent(this, ComposeActivity.class);
-            startActivityForResult(i, REQUEST_CODE_COMPOSE);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onCompose(final MenuItem mi) {
+        final Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i, REQUEST_CODE_COMPOSE);
     }
 
     /*
