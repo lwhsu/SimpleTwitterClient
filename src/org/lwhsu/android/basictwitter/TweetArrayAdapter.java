@@ -6,9 +6,11 @@ import java.util.List;
 import org.lwhsu.android.basictwitter.models.Tweet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -47,6 +49,18 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         tvUserName.setText(tweet.getUser().getScreenName());
         tvBody.setText(tweet.getBody());
         tvTime.setText(getRelativeCreatedAt(Tweet.getTwitterDate(tweet.getCreatedAt())));
+
+        ivProfileImage.setTag(tweet.getUser().getScreenName());
+        ivProfileImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final Context context = getContext();
+                final Intent i = new Intent(context, ProfileActivity.class);
+                i.putExtra("screen_name", ivProfileImage.getTag().toString());
+                context.startActivity(i);
+            }
+        });
+
         return v;
     }
 

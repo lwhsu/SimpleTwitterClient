@@ -1,10 +1,12 @@
 package org.lwhsu.android.basictwitter;
 
 import org.json.JSONObject;
+import org.lwhsu.android.basictwitter.fragments.UserTimelineFragment;
 import org.lwhsu.android.basictwitter.models.User;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -15,23 +17,44 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ProfileActivity extends FragmentActivity {
 
+    private String screenName;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        screenName = getIntent().getStringExtra("screen_name");
         loadProfileInfo();
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentUserTimeline, UserTimelineFragment.newInstance(screenName));
+        ft.commit();
+
     }
 
     private void loadProfileInfo() {
-        TwitterApplication.getRestClient().getMyInfo(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(final JSONObject json) {
-                final User u = User.fromJSON(json);
-                getActionBar().setTitle("@" + u.getScreenName());
-                populateProfileHeader(u);
-            }
+        if (screenName == null) {
+            TwitterApplication.getRestClient().getMyInfo(
+                    new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(final JSONObject json) {
+                            final User u = User.fromJSON(json);
+                            getActionBar().setTitle("@" + u.getScreenName());
+                            populateProfileHeader(u);
+                        }
 
-        });
+                    });
+        } else {
+            TwitterApplication.getRestClient().getUsersShow(screenName,
+                    new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(final JSONObject json) {
+                            final User u = User.fromJSON(json);
+                            getActionBar().setTitle("@" + u.getScreenName());
+                            populateProfileHeader(u);
+                        }
+
+                    });
+        }
     }
 
     private void populateProfileHeader(final User u) {

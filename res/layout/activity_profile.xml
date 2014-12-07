@@ -64,13 +64,11 @@
             android:text="X Following" />
     </LinearLayout>
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragmentUserTimeline"
-        android:name="org.lwhsu.android.basictwitter.fragments.UserTimelineFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/llCounts"
-        tools:layout="@layout/fragment_tweets_list" />
+        android:layout_below="@+id/llCounts" />
 
 </RelativeLayout>
